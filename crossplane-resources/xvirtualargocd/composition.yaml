@@ -47,7 +47,7 @@ spec:
               - fromFieldPath: metadata.name
             strategy: string
             string:
-              fmt: "--out-kube-config-server=https://%s-vcluster.%s.svc.cluster.local"
+              fmt: "https://%s-vcluster.%s.svc.cluster.local"
           toFieldPath: spec.forProvider.values.exportKubeConfig.server
     - name: observe-delete-namespace
       base:
