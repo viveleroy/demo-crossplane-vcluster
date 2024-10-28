@@ -23,11 +23,6 @@ spec:
               version: 0.20.2
             namespace: vcluster-test
             values:
-              syncer:
-                extraArgs:
-                  - --out-kube-config-secret=vcluster-kubeconfig
-                  - --out-kube-config-server=https://vcluster-test.vcluster-test.svc.cluster.local
-                  - --tls-san=vcluster-test.vcluster-test.svc.cluster.local
               sync:
                 ingresses:
                   enabled: true
@@ -46,24 +41,6 @@ spec:
             - type: string
               string:
                 fmt: "%s-vcluster"
-        - type: CombineFromComposite
-          combine:
-            variables:
-              - fromFieldPath: metadata.name
-              - fromFieldPath: metadata.name
-            strategy: string
-            string:
-              fmt: "--out-kube-config-server=https://%s-vcluster.%s.svc.cluster.local"
-          toFieldPath: spec.forProvider.values.syncer.extraArgs[1]
-        - type: CombineFromComposite
-          combine:
-            variables:
-              - fromFieldPath: metadata.name
-              - fromFieldPath: metadata.name
-            strategy: string
-            string:
-              fmt: "--tls-san=%s-vcluster.%s.svc.cluster.local"
-          toFieldPath: spec.forProvider.values.syncer.extraArgs[2]
     - name: observe-delete-namespace
       base:
         apiVersion: kubernetes.crossplane.io/v1alpha1
@@ -119,7 +96,7 @@ spec:
             chart:
               name: argo-cd
               repository: https://argoproj.github.io/argo-helm
-              version: 5.21.0
+              version: 7.6.12
             namespace: argocd
       patches:
         - type: FromCompositeFieldPath
