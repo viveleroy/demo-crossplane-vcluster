@@ -24,6 +24,7 @@ spec:
             namespace: vcluster-test
             values:
               exportKubeConfig:
+                insecure: true
                 server: https://vcluster-test.vcluster-test.svc.cluster.local
                 secret:
                   name: vcluster-kubeconfig
