@@ -22,6 +22,11 @@ spec:
               repository: https://charts.loft.sh
               version: 0.20.2
             namespace: vcluster-test
+            values:
+              exportKubeConfig:
+                server: https://vcluster-test.vcluster-test.svc.cluster.local
+                secret:
+                  name: vcluster-kubeconfig
           providerConfigRef:
             name: default
       patches:
@@ -35,6 +40,15 @@ spec:
             - type: string
               string:
                 fmt: "%s-vcluster"
+        - type: CombineFromComposite
+          combine:
+            variables:
+              - fromFieldPath: metadata.name
+              - fromFieldPath: metadata.name
+            strategy: string
+            string:
+              fmt: "--out-kube-config-server=https://%s-vcluster.%s.svc.cluster.local"
+          toFieldPath: spec.forProvider.values.exportKubeConfig.server
     - name: observe-delete-namespace
       base:
         apiVersion: kubernetes.crossplane.io/v1alpha1
