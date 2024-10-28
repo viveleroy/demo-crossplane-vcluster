@@ -22,12 +22,6 @@ spec:
               repository: https://charts.loft.sh
               version: 0.20.2
             namespace: vcluster-test
-            values:
-              sync:
-                ingresses:
-                  enabled: true
-                poddisruptionbudgets:
-                  enabled: true
           providerConfigRef:
             name: default
       patches:
